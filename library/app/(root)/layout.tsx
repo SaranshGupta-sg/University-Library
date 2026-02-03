@@ -17,3 +17,4 @@ const layout = ({ children }: { children: ReactNode }) => {
 };
 
 export default layout;
+// This is our primary home page
