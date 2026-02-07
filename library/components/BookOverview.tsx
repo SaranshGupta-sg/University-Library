@@ -3,9 +3,6 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import BookCover from "@/components/BookCover";
 
-interface Props extends Book {
-  userId: string;
-}
 
 const BookOverview = ({
   title,
@@ -15,11 +12,9 @@ const BookOverview = ({
   totalCopies,
   availableCopies,
   description,
-  coverColor,
-  coverUrl,
-  id,
-  userId,
-}: Props) => {
+  color,
+  cover,
+}: Book) => {
   return (
     <section className="flex flex-col-reverse items-center gap-12 sm:gap-32 xl:flex-row xl:gap-8">
       <div className="flex flex-1 flex-col gap-5">
@@ -64,15 +59,15 @@ const BookOverview = ({
           <BookCover
             variant="wide"
             className="z-10"
-            coverColor={coverColor}
-            coverImage={coverUrl}
+            coverColor={color}
+            coverImage={cover}
           />
 
           <div className="absolute left-16 top-10 rotate-12 opacity-40 max-sm:hidden">
             <BookCover
               variant="wide"
-              coverColor={coverColor}
-              coverImage={coverUrl}
+              coverColor={color}
+              coverImage={cover}
             />
           </div>
         </div>

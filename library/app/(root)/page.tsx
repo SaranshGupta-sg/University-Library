@@ -1,8 +1,9 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import BookOverview from "@/components/BookOverview"
-import BookList from "@/components/BookList"
+import BookOverview from "@/components/BookOverview";
+import BookList from "@/components/BookList";
 import { sampleBooks } from "@/constants";
+
 
 
 const Home = () => {
