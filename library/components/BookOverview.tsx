@@ -50,7 +50,7 @@ const BookOverview = ({
 
         <Button className="mt-4 min-h-14 w-fit bg-[#e7c9a5] text-blue-950 hover:bg-[#e7c9a5]/80 max-md:w-full">
         <Image src="/icons/book.svg" alt="book" width={20} height={20}/>
-        <p className="font-bold text-xl">Borrow Book</p>
+        <p className="font-bold text-xl">Borrow</p>
         </Button>
       </div>
 
