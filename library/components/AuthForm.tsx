@@ -23,6 +23,8 @@ import {
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { FIELD_NAMES, FIELD_TYPES } from "@/constants";
+import FileUpload from "@/components/FileUpload";
 
 // import { Props } from "recharts/types/container/Surface";
 
@@ -67,13 +69,27 @@ const AuthForm = <T extends FieldValues>({
         >
           {Object.keys(defaultValues).map((field) => (
             <FormField
+              key={field}
               control={form.control}
-              name="username"
+              name={field as Path<T>}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel className="capitalize">
+                    {FIELD_NAMES[field.name as keyof typeof FIELD_NAMES]}
+                  </FormLabel>
                   <FormControl>
-                    <Input placeholder="shadcn" {...field} />
+                    {field.name === "universityCard" ? (
+                      <FileUpload/>
+                    ) : (
+                      <Input
+                        required
+                        type={
+                          FIELD_TYPES[field.name as keyof typeof FIELD_TYPES]
+                        }
+                        {...field}
+                        className=" w-full min-h-14 border-none text-base font-bold placeholder:font-normal text-white placeholder:text-[#D6E0FF] focus-visible:ring-0 focus-visible:shadow-none bg-[#232839]"
+                      />
+                    )}
                   </FormControl>
                 </FormItem>
               )}
@@ -84,7 +100,7 @@ const AuthForm = <T extends FieldValues>({
             type="submit"
             className="bg-[#E7C9A5] text-[#16191E] hover:bg-[#E7C9A5] inline-flex min-h-14 w-full items-center justify-center rounded-md px-6 py-2 font-bold text-base"
           >
-            Submit
+            {isSignIn ? "Sign In" : "Sign Up"}
           </Button>
         </form>
       </Form>
