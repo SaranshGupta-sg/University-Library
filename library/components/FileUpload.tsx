@@ -4,8 +4,8 @@ import { ImageKitProvider, upload, Image, Video } from "@imagekit/next";
 import config from "@/lib/config";
 import { useRef, useState } from "react";
 import NextImage from "next/image";
-// import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 const {
   env: {
@@ -38,48 +38,73 @@ const FileUpload = ({
   value,
 }: Props) => {
   const fileRef = useRef<HTMLInputElement | null>(null);
+
   const [filePath, setFilePath] = useState<string | null>(value ?? null);
   const [progress, setProgress] = useState(0);
 
   const styles = {
     button:
       variant === "dark"
-        ? "bg-dark-300"
-        : "bg-light-600 border-gray-100 border",
-    placeholder: variant === "dark" ? "text-light-100" : "text-slate-500",
-    text: variant === "dark" ? "text-light-100" : "text-dark-400",
+        ? "bg-[#232839]"
+        : "bg-[#F9FAFB] border-gray-100 border",
+    placeholder: variant === "dark" ? "text-[#D6E0FF]" : "text-slate-500",
+    text: variant === "dark" ? "text-[#D6E0FF]" : "text-[#1E293B]",
   };
 
-  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const validateFile = (file: File) => {
+    if (type === "image" && file.size > 20 * 1024 * 1024) {
+      toast.error("Image must be smaller than 20MB");
+      return false;
+    }
+
+    if (type === "video" && file.size > 50 * 1024 * 1024) {
+      toast.error("Video must be smaller than 50MB");
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleUpload = async () => {
+    const file = fileRef.current?.files?.[0];
     if (!file) return;
 
+    if (!validateFile(file)) return;
+
     try {
+      setProgress(0);
+
       const auth = await authenticator();
 
-      const res = await upload({
+      const result = await upload({
         file,
         fileName: file.name,
         folder,
+        useUniqueFileName: true,
         publicKey,
-        signature: auth.signature,
-        expire: auth.expire,
         token: auth.token,
+        expire: auth.expire,
+        signature: auth.signature,
         onProgress: (evt) => {
-          setProgress(Math.round((evt.loaded / evt.total) * 100));
+          const percent = Math.round(
+            (evt.loaded / (evt.total || 1)) * 100
+          );
+          setProgress(percent);
         },
       });
+
+      setFilePath(result.filePath as string);
+      onFileChange(result.filePath as string);
+
+      toast.success("Upload successful");
     } catch (error) {
-      console.error("Upload failed:", error);
+      console.error(error);
+      toast.error("Upload failed");
     }
   };
 
   return (
-    <ImageKitProvider
-      publicKey={publicKey}
-      urlEndpoint={urlEndpoint}
-      authenticator={authenticator}
-    >
+    <ImageKitProvider urlEndpoint={urlEndpoint}>
       <input
         type="file"
         ref={fileRef}
@@ -89,14 +114,56 @@ const FileUpload = ({
       />
 
       <button
-        className={cn("flex min-h-14 w-full items-center justify-center gap-1.5 rounded-md", styles.button)}
+        className={cn("upload-btn flex items-center gap-2 p-3", styles.button)}
         onClick={(e) => {
           e.preventDefault();
           fileRef.current?.click();
         }}
-      ></button>
+      >
+        <NextImage
+          src="/icons/upload.svg"
+          alt="upload"
+          width={20}
+          height={20}
+        />
 
-      
+        <p className={cn("text-base", styles.placeholder)}>
+          {placeholder}
+        </p>
+
+        {filePath && (
+          <p className={cn("ml-2 text-sm", styles.text)}>
+            Uploaded
+          </p>
+        )}
+      </button>
+
+      {progress > 0 && progress !== 100 && (
+        <div className="mt-2 w-full rounded-full bg-green-200">
+          <div
+            className="bg-green-500 text-white text-xs text-center rounded-full"
+            style={{ width: `${progress}%` }}
+          >
+            {progress}%
+          </div>
+        </div>
+      )}
+
+      {filePath &&
+        (type === "image" ? (
+          <Image
+            src={filePath!}
+            alt="uploaded"
+            width={400}
+            height={250}
+          />
+        ) : (
+          <Video
+            path={filePath!}
+            controls
+            className="h-80 w-full rounded-xl"
+          />
+        ))}
     </ImageKitProvider>
   );
 };
