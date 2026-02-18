@@ -8,7 +8,30 @@ import { signIn } from "@/auth";
 import { headers } from "next/headers";
 import config from "@/lib/config";
 
-const signUp = async (params: AuthCredentials) => {
+export const signInWithCredentials = async (
+  params: Pick<AuthCredentials, "email" | "password">,
+) => {
+    const { email, password } = params;
+
+    try {
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+
+    if (result?.error) {
+      return { success: false, error: result.error };
+    }
+
+    return { success: true };
+  } catch (error) {
+    console.log(error, "Signin error");
+    return { success: false, error: "Signin error" };
+  }
+}
+
+export const signUp = async (params: AuthCredentials) => {
     const { fullName, email, universityId, password, universityCard } = params;
 
     // Check if the user already exists

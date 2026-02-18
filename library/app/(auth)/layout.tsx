@@ -1,8 +1,13 @@
 import React from "react";
 import { ReactNode } from "react";
 import Image from "next/image";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
 const Layout = async ({ children }: { children: ReactNode }) => {
+  const session = await auth();
+
+  if (session) redirect("/");
   return (
     <main className="relative flex flex-col-reverse text-[#D6E0FF] sm:flex-row">
       <section className="my-auto flex h-full min-h-screen flex-1 items-center bg-cover bg-top bg-[#16191E] px-5 py-10 bg-[url('/images/pattern.webp')]">
