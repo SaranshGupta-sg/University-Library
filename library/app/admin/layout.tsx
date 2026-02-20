@@ -1,8 +1,6 @@
 import React, { ReactNode } from "react";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-
-import "@/styles/admin.css";
 import Sidebar from "@/components/admin/Sidebar";
 import Header from "@/components/admin/Header";
 import { db } from "@/database/drizzle";
@@ -14,21 +12,12 @@ const Layout = async ({ children }: { children: ReactNode }) => {
 
   if (!session?.user?.id) redirect("/sign-in");
 
-  const isAdmin = await db
-    .select({ isAdmin: users.role })
-    .from(users)
-    .where(eq(users.id, session.user.id))
-    .limit(1)
-    .then((res) => res[0]?.isAdmin === "ADMIN");
-
-  if (!isAdmin) redirect("/");
-
   return (
-    <main className="flex min-h-screen w-full flex-row">
-      {/* <Sidebar session={session} /> */}
+    <main className="flex min-h-screen w-full flex-row text-black">
+      <Sidebar session={session} />
 
       <div className="flex w-[calc(100%-264px)] flex-1 flex-col bg-[#F8F8FF] p-5 sm:p-10">
-        {/* <Header session={session} /> */}
+        <Header session={session} />
         {children}
       </div>
     </main>
