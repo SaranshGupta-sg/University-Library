@@ -57,7 +57,7 @@ const BookForm = ({ type, ...book }: Props) => {
           name={"title"}
           render={({ field }) => (
             <FormItem className="flex flex-col gap-1">
-              <FormLabel className="text-base font-normal text-[#0F172A]">
+              <FormLabel className="text-base font-normal text-dark-500">
                 Book Title
               </FormLabel>
               <FormControl>
@@ -65,7 +65,7 @@ const BookForm = ({ type, ...book }: Props) => {
                   required
                   placeholder="Book title"
                   {...field}
-                  className="min-h-14 border border-gray-100 bg-light-600 p-4 text-base font-semibold placeholder:font-normal placeholder:text-slate-500"
+                  className="book-form_input"
                 />
               </FormControl>
               <FormMessage />
@@ -128,7 +128,6 @@ const BookForm = ({ type, ...book }: Props) => {
                   max={5}
                   placeholder="Book rating"
                   {...field}
-                  onChange={(e) => field.onChange(Number(e.target.value))}
                   className="book-form_input"
                 />
               </FormControl>
@@ -152,7 +151,6 @@ const BookForm = ({ type, ...book }: Props) => {
                   max={10000}
                   placeholder="Total copies"
                   {...field}
-                  onChange={(e) => field.onChange(Number(e.target.value))}
                   className="book-form_input"
                 />
               </FormControl>
@@ -170,7 +168,7 @@ const BookForm = ({ type, ...book }: Props) => {
                 Book Image
               </FormLabel>
               <FormControl>
-                <FileUpload
+                {/* <FileUpload
                   type="image"
                   accept="image/*"
                   placeholder="Upload a book cover"
@@ -178,7 +176,7 @@ const BookForm = ({ type, ...book }: Props) => {
                   variant="light"
                   onFileChange={field.onChange}
                   value={field.value}
-                />
+                /> */}
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -192,12 +190,12 @@ const BookForm = ({ type, ...book }: Props) => {
               <FormLabel className="text-base font-normal text-dark-500">
                 Primary Color
               </FormLabel>
-              <FormControl>
-                {/* <ColorPicker
+              {/* <FormControl>
+                <ColorPicker
                   onPickerChange={field.onChange}
                   value={field.value}
-                /> */}
-              </FormControl>
+                />
+              </FormControl> */}
               <FormMessage />
             </FormItem>
           )}
@@ -233,7 +231,7 @@ const BookForm = ({ type, ...book }: Props) => {
                 Book Trailer
               </FormLabel>
               <FormControl>
-                <FileUpload
+                {/* <FileUpload
                   type="video"
                   accept="video/*"
                   placeholder="Upload a book trailer"
@@ -241,7 +239,7 @@ const BookForm = ({ type, ...book }: Props) => {
                   variant="light"
                   onFileChange={field.onChange}
                   value={field.value}
-                />
+                /> */}
               </FormControl>
               <FormMessage />
             </FormItem>

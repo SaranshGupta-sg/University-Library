@@ -2,7 +2,7 @@ import { Session } from "next-auth";
 
 const Header = ({ session }: { session: Session }) => {
   return (
-    <header className="flex lg:items-end items-start justify-between lg:flex-row flex-col gap-5 sm:mb-10 mb-5">
+    <header className="flex lg:items-end items-start justify-between lg:flex-row flex-col gap-5 sm:mb-10 mb-5 px-3">
       <div>
         <h2 className="text-2xl font-semibold text-[#1E293B]">
           {session?.user?.name}
