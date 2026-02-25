@@ -2,8 +2,7 @@ import React, { ReactNode } from "react";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
-// import "@/styles/admin.css";
-// import Sidebar from "@/components/admin/Sidebar";
+import Sidebar from "@/components/admin/Sidebar";
 import Header from "@/components/admin/Header";
 import { db } from "@/database/drizzle";
 import { users } from "@/database/schema";
@@ -25,7 +24,7 @@ const Layout = async ({ children }: { children: ReactNode }) => {
 
   return (
     <main className="flex min-h-screen w-full flex-row">
-      <h2>Sidebar</h2>
+      <Sidebar session={session} />
 
       <div className="aflex w-[calc(100%-264px)] flex-1 flex-col bg-[#F8F8FF] p-5 sm:p-10">
          <Header session={session} />

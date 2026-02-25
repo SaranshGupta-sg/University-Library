@@ -6,7 +6,7 @@ const Page = () => {
   return (
     <section className="w-full rounded-2xl bg-white p-7">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h2 className="text-xl font-semibold">All Books</h2>
+        <h2 className="text-xl font-semibold text-black">All Books</h2>
         <Button className="bg-[#25388C]" asChild>
           <Link href="/admin/books/new" className="text-white">
             + Create a New Book
@@ -14,7 +14,7 @@ const Page = () => {
         </Button>
       </div>
 
-      <div className="mt-7 w-full overflow-hidden">
+      <div className="mt-7 w-full overflow-hidden text-black">
         <p>Table</p>
       </div>
     </section>
