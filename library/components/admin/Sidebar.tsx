@@ -12,7 +12,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 const Sidebar = ({ session }: { session: Session }) => {
   const pathname = usePathname();
   return (
-    <div className="sticky left-0 top-0 flex flex-col bg-white px-5 pb-5 pt-10">
+    <div className="h-screen sticky left-0 top-0 flex flex-col bg-white px-5 pb-5 pt-10">
       <div>
         <div className="flex flex-row items-center gap-2 border-b border-dashed border-[#25388C]/20 pb-10 max-md:justify-center">
           <Image
