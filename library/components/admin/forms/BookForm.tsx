@@ -19,7 +19,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import FileUpload from "@/components/FileUpload";
 
-
 interface Props extends Partial<Book> {
   type?: "create" | "update";
 }
@@ -49,7 +48,10 @@ const BookForm = ({ type, ...book }: Props) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 text-black">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-8 text-black"
+      >
         <FormField
           control={form.control}
           name="title"
@@ -73,7 +75,7 @@ const BookForm = ({ type, ...book }: Props) => {
           )}
         />
 
-         <FormField
+        <FormField
           control={form.control}
           name={"author"}
           render={({ field }) => (
@@ -161,7 +163,7 @@ const BookForm = ({ type, ...book }: Props) => {
           )}
         />
 
-         <FormField
+        <FormField
           control={form.control}
           name={"coverUrl"}
           render={({ field }) => (
@@ -170,7 +172,7 @@ const BookForm = ({ type, ...book }: Props) => {
                 Book Image
               </FormLabel>
               <FormControl>
-                {/* <FileUpload
+                <FileUpload
                   type="image"
                   accept="image/*"
                   placeholder="Upload a book cover"
@@ -178,7 +180,7 @@ const BookForm = ({ type, ...book }: Props) => {
                   variant="light"
                   onFileChange={field.onChange}
                   value={field.value}
-                /> */}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -187,17 +189,17 @@ const BookForm = ({ type, ...book }: Props) => {
 
         <FormField
           control={form.control}
-          name={"coverColor"}
+          name="coverColor"
           render={({ field }) => (
-            <FormItem className="flex flex-col gap-1">
-              <FormLabel className="text-base font-normal text-[#0F172A]">
-                Primary Color
-              </FormLabel>
+            <FormItem>
+              <FormLabel>Primary Color</FormLabel>
               <FormControl>
-                {/* <ColorPicker
-                  onPickerChange={field.onChange}
-                  value={field.value}
-                /> */}
+                <Input
+                  type="color"
+                  value={field.value || "#000000"}
+                  onChange={field.onChange}
+                  className="h-14 w-32 p-2"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -217,7 +219,7 @@ const BookForm = ({ type, ...book }: Props) => {
                   placeholder="Book description"
                   {...field}
                   rows={5}
-                 className="min-h-14 border border-gray-300 bg-[#F9FAFB] p-4 text-base font-semibold placeholder:font-normal placeholder:text-slate-500"
+                  className="min-h-14 border border-gray-300 bg-[#F9FAFB] p-4 text-base font-semibold placeholder:font-normal placeholder:text-slate-500"
                 />
               </FormControl>
 
@@ -235,7 +237,7 @@ const BookForm = ({ type, ...book }: Props) => {
                 Book Trailer
               </FormLabel>
               <FormControl>
-                {/* <FileUpload
+                <FileUpload
                   type="video"
                   accept="video/*"
                   placeholder="Upload a book trailer"
@@ -243,7 +245,7 @@ const BookForm = ({ type, ...book }: Props) => {
                   variant="light"
                   onFileChange={field.onChange}
                   value={field.value}
-                /> */}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -272,7 +274,10 @@ const BookForm = ({ type, ...book }: Props) => {
           )}
         />
 
-        <Button type="submit" className="min-h-14 w-full bg-[#25388C] hover:bg-[#25388C]/95 text-white cursor-pointer">
+        <Button
+          type="submit"
+          className="min-h-14 w-full bg-[#25388C] hover:bg-[#25388C]/95 text-white cursor-pointer"
+        >
           Add Book to Library
         </Button>
       </form>
