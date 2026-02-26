@@ -18,6 +18,8 @@ import { bookSchema } from "@/lib/validations";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import FileUpload from "@/components/FileUpload";
+import { createBook } from "@/lib/admin/actions/book";
+import { toast } from "sonner";
 
 interface Props extends Partial<Book> {
   type?: "create" | "update";
@@ -36,15 +38,45 @@ const BookForm = ({ type, ...book }: Props) => {
       rating: 1,
       totalCopies: 1,
       coverUrl: "",
-      coverColor: "",
+      coverColor: "#000000",
       videoUrl: "",
       summary: "",
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof bookSchema>) => {
-    console.log(values);
-  };
+const onSubmit = async (values: z.infer<typeof bookSchema>) => {
+  console.log("FORM VALUES:", values);
+  console.log("FORM ERRORS:", form.formState.errors);
+
+  try {
+    const result = await createBook({
+      ...values,
+      rating: Number(values.rating),
+      totalCopies: Number(values.totalCopies),
+    });
+
+    console.log("CREATE RESULT:", result);
+
+    if (result?.success) {
+      toast.success("Book created successfully", {
+        description: "The book has been added to the library",
+      });
+
+      router.push(`/admin/books/${result.data.id}`);
+      router.refresh();
+    } else {
+      toast.error("Failed to create book", {
+        description: result?.message || "Something went wrong",
+      });
+    }
+  } catch (error) {
+    console.log("SUBMIT ERROR:", error);
+
+    toast.error("Unexpected error occurred", {
+      description: "Please try again later",
+    });
+  }
+};
 
   return (
     <Form {...form}>
